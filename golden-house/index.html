@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golden House — Kinamat & Take Away · Stangeland</title>
+  <meta name="description" content="Bestill kinamat til henting fra Golden House i Stangeland — enkelt på nett, uten å ringe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Patrick+Hand&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== global SVG defs: the "roughen" filter that makes lines hand-drawn ===== -->
+  <svg class="svg-defs" aria-hidden="true">
+    <defs>
+      <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ============================== HERO ============================== -->
+  <header class="hero">
+    <div class="hero__topbar">
+      <span class="hero__open"><span class="dot"></span> Åpent nå</span>
+      <span class="tag">Stangeland</span>
+    </div>
+
+    <!-- The shop, drawn in marker. Lines animate themselves on load. -->
+    <svg class="sketch reveal-up d1" viewBox="0 0 660 400" role="img"
+         aria-label="Håndtegnet skisse av Golden House takeout-sjappa">
+      <g filter="url(#rough)" fill="none" stroke="#1c1c1c" stroke-width="3"
+         stroke-linecap="round" stroke-linejoin="round">
+
+        <!-- ground -->
+        <path data-draw d="M40 348 L620 348" stroke-width="3.5" />
+
+        <!-- tree (left) -->
+        <path data-draw d="M60 348 L60 300" />
+        <path data-draw d="M62 300 C 18 296, 18 240, 60 236 C 104 232, 110 286, 78 300"
+              stroke-width="3" />
+
+        <!-- yield road sign (left) -->
+        <path data-draw d="M30 348 L30 286" stroke="#d72631" />
+        <path data-draw d="M12 256 L48 256 L30 286 Z" stroke="#d72631" />
+
+        <!-- roof (big overhang on the porch side) -->
+        <path data-draw d="M92 222 L335 92 L548 216" stroke-width="3.6" />
+        <path data-draw d="M112 230 L335 110 L532 226" stroke-width="2.4" />
+        <!-- porch support beam -->
+        <path data-draw d="M100 224 L168 312" stroke-width="2.6" />
+
+        <!-- wall -->
+        <path data-draw d="M178 220 L178 332 L502 332 L502 220" stroke-width="3.2" />
+        <!-- cladding lines -->
+        <path data-draw d="M180 300 L500 300" stroke-width="1.8" stroke="#4a4a4a" />
+        <path data-draw d="M180 316 L500 316" stroke-width="1.8" stroke="#4a4a4a" />
+
+        <!-- serving-hatch shutters (left part of wall) -->
+        <path data-draw d="M190 244 L408 244 L408 288 L190 288 Z" stroke-width="2.6" />
+        <path data-draw d="M244 244 L244 288 M298 244 L298 288 M352 244 L352 288" stroke-width="1.8" />
+        <!-- diamond-plate hatch -->
+        <path data-draw d="M196 286 L230 246 M214 288 L246 250 M256 286 L290 246 M304 288 L302 286 M312 286 L346 246 M358 286 L392 246 M402 288 L404 286"
+              stroke-width="1.4" stroke="#4a4a4a" />
+        <path data-draw d="M196 250 L228 288 M252 246 L292 288 M306 246 L348 288 M360 246 L402 286"
+              stroke-width="1.4" stroke="#4a4a4a" />
+
+        <!-- door (right part of wall) -->
+        <path data-draw d="M432 250 L432 330 L490 330 L490 250 Z" stroke-width="2.6" />
+        <path data-draw d="M480 292 a3 3 0 1 0 0.1 0" stroke-width="3" />
+
+        <!-- chimney + conical hat (right roof) -->
+        <path data-draw d="M452 168 L452 138 L472 138 L472 156" stroke-width="2.6" />
+        <path data-draw d="M438 138 C 452 116, 472 116, 486 138 Z" stroke-width="2.6" />
+        <!-- steam -->
+        <path data-draw d="M462 112 C 452 100, 472 92, 462 80 C 454 70, 470 62, 462 52"
+              stroke-width="2" stroke="#4a4a4a" />
+
+        <!-- sun (top right) -->
+        <path data-draw d="M598 64 a26 26 0 1 0 0.1 0" stroke="#d72631" stroke-width="2.6" />
+        <path data-draw d="M598 22 L598 8 M640 64 L656 64 M628 34 L640 22 M628 94 L640 106"
+              stroke="#d72631" stroke-width="2.4" />
+
+        <!-- a little cloud -->
+        <path data-draw d="M120 80 c -22 0 -22 22 0 22 l 60 0 c 22 0 22 -22 0 -22 c 0 -18 -44 -18 -44 0"
+              stroke-width="2.2" stroke="#4a4a4a" />
+      </g>
+
+      <!-- hanging sign (kept crisp — not roughened — so text reads) -->
+      <g class="fill-late" transform="rotate(-3 220 176)">
+        <line x1="172" y1="150" x2="180" y2="128" stroke="#1c1c1c" stroke-width="2" />
+        <line x1="268" y1="150" x2="262" y2="128" stroke="#1c1c1c" stroke-width="2" />
+        <rect x="150" y="148" width="140" height="56" rx="7"
+              fill="#fcfbf7" stroke="#1c1c1c" stroke-width="3" />
+        <text x="220" y="176" text-anchor="middle" font-family="'Permanent Marker',cursive"
+              font-size="22" fill="#d72631">Golden House</text>
+        <text x="220" y="194" text-anchor="middle" font-family="'Caveat',cursive"
+              font-size="13" fill="#1c1c1c">Take Away</text>
+      </g>
+    </svg>
+
+    <h1 class="hero__brand reveal-up d2">Golden House</h1>
+    <p class="hero__sub reveal-up d3">Kinamat &amp; Take&nbsp;Away · Stangeland</p>
+
+    <button class="hero__scroll reveal-up d4" id="scrollDown" aria-label="Scroll ned for å bestille">
+      Scroll ned for å bestille
+      <svg viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3 L12 22" /><path d="M5 16 L12 24 L19 16" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- ============================== ORDER ============================== -->
+  <main class="order" id="bestilling">
+    <div class="order__head">
+      <h2 class="u-red">Meny</h2>
+      <p>Velg rettene dine, så lager vi dem klare til henting.</p>
+    </div>
+
+    <!-- category nav (filled by app.js) -->
+    <nav class="sidebar" aria-label="Meny-kategorier">
+      <p class="sidebar__title">Kategorier</p>
+      <ul id="catNav"></ul>
+    </nav>
+
+    <!-- menu sections (filled by app.js) -->
+    <div class="menu" id="menuRoot"></div>
+  </main>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="footer">
+    <h3>Golden House</h3>
+    <p class="muted">Kinamat &amp; Take Away i Stangeland</p>
+    <div class="cols">
+      <div class="col">
+        <h4>Åpningstider</h4>
+        <div id="footHours"></div>
+      </div>
+      <div class="col">
+        <h4>Bestilling &amp; adresse</h4>
+        <p id="footAddress" class="muted">Stangeland</p>
+        <p id="footPhone"></p>
+      </div>
+    </div>
+    <p class="footer__alg" id="footAlg"></p>
+    <p class="footer__note">
+      Laget med ❤️ for nabolaget · Bestill enkelt på nett, uten å ringe.
+    </p>
+  </footer>
+
+  <!-- ============================== CART ============================== -->
+  <button class="cart-fab" id="cartFab" hidden aria-label="Åpne handlekurv">
+    <span class="icon">🛍️</span>
+    <span class="count" id="cartCount">0</span>
+    <span id="cartFabTotal">0&nbsp;kr</span>
+  </button>
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="drawer" id="drawer" aria-label="Handlekurv og bestilling" aria-hidden="true">
+    <div class="drawer__head">
+      <h2>Din bestilling</h2>
+      <button class="drawer__close" id="cartClose" aria-label="Lukk">✕</button>
+    </div>
+    <div class="drawer__body" id="cartBody"></div>
+    <div class="drawer__foot" id="cartFoot"></div>
+  </aside>
+
+  <script src="menu.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
