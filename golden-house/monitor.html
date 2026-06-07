@@ -169,6 +169,7 @@
             ${o.items.map((it) => `<li><span class="q">${it.qty}×</span><span class="nm">${it.no != null ? "<b>" + it.no + ".</b> " : ""}${esc(it.name)}</span><span>${it.qty * it.price} kr</span></li>`).join("")}
           </ul>
           ${o.note ? `<div class="note"><b>Merk:</b> ${esc(o.note)}</div>` : ""}
+          ${o.discount ? `<div style="display:flex;justify-content:space-between;color:#b01622;font-size:1.05rem"><span>★ Medlem −15%</span><span>−${o.discount} kr</span></div>` : ""}
           <div class="ticket__total"><span>Totalt</span><span>${o.total} kr</span></div>
           <div class="ticket__act">
             ${done

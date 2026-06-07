@@ -8,6 +8,9 @@
   const ORDERS_KEY  = "goldenhouse_orders";   // shared with monitor.html
   const CART_KEY    = "goldenhouse_cart";
   const COUNTER_KEY = "goldenhouse_counter";
+  const USER_KEY    = "goldenhouse_user";
+  const NOTE_KEY    = "goldenhouse_note_dismissed";
+  const DISCOUNT_RATE = 0.15;                  // 15 % på første bestilling for medlemmer
 
   // flat lookup: id -> item (+ category name)
   const ITEMS = {};
@@ -15,6 +18,7 @@
 
   // cart = { itemId: qty }
   let cart = loadCart();
+  let user = loadUser();   // medlem (lagres lokalt i nettleseren)
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const kr = (n) => `${n} kr`;
@@ -112,12 +116,17 @@
   function cartCount() { return Object.values(cart).reduce((a, b) => a + b, 0); }
   function cartTotal() { return cartEntries().reduce((s, x) => s + x.price * x.qty, 0); }
 
+  // medlemsrabatt: 15 % på første bestilling
+  function memberDiscountAvailable() { return !!(user && !user.discountUsed); }
+  function discountAmount() { return memberDiscountAvailable() ? Math.round(cartTotal() * DISCOUNT_RATE) : 0; }
+  function payableTotal() { return cartTotal() - discountAmount(); }
+
   function updateFab(bump) {
     const fab = $("#cartFab");
     const n = cartCount();
     fab.hidden = n === 0;
     $("#cartCount").textContent = n;
-    $("#cartFabTotal").textContent = kr(cartTotal());
+    $("#cartFabTotal").textContent = kr(payableTotal());
     if (bump && n > 0) { fab.classList.remove("bump"); void fab.offsetWidth; fab.classList.add("bump"); }
   }
 
@@ -161,8 +170,12 @@
         </div>`).join("") +
       checkoutForm();
 
+    const disc = discountAmount();
     foot.innerHTML = `
-      <div class="total-row"><span>Totalt</span><span>${kr(cartTotal())}</span></div>
+      ${disc ? `
+        <div class="subtotal-row"><span>Sum</span><span>${kr(cartTotal())}</span></div>
+        <div class="discount-row"><span>Medlemsrabatt (15 %)</span><span>− ${kr(disc)}</span></div>` : ""}
+      <div class="total-row"><span>Totalt</span><span>${kr(payableTotal())}</span></div>
       <button class="btn-send" id="sendOrder">Send bestilling</button>`;
 
     body.querySelectorAll("[data-rm]").forEach((b) =>
@@ -225,6 +238,8 @@
     }
     if (!ok) return;
 
+    const subtotal = cartTotal();
+    const discount = discountAmount();
     const ticket = nextCounter();
     const order = {
       id: "o" + Date.now(),
@@ -236,7 +251,10 @@
       pickup: draft.pickup,
       note: draft.note.trim(),
       items: cartEntries().map((x) => ({ no: x.no ?? null, name: x.name, qty: x.qty, price: x.price })),
-      total: cartTotal(),
+      subtotal,
+      discount,
+      member: discount > 0 ? (user.name || user.email || "medlem") : null,
+      total: subtotal - discount,
     };
 
     // Register the order. For now it lands in the in-house monitor (monitor.html).
@@ -245,6 +263,9 @@
     const all = loadOrders();
     all.push(order);
     saveOrders(all);
+
+    // velkomstrabatten kan bare brukes én gang
+    if (discount > 0 && user) { user.discountUsed = true; saveUser(); renderLoginTab(); }
 
     // reset cart
     cart = {};
@@ -268,6 +289,7 @@
         <p>Bestillingen er registrert.</p>
         <p class="ticketno">Bestilling ${order.ticket}</p>
         <p>Henting: <b>${esc(order.pickup)}</b> · Totalt <b>${kr(order.total)}</b></p>
+        ${order.discount ? `<p style="color:var(--red);font-family:var(--font-note);font-size:1.3rem">Du sparte ${kr(order.discount)} med medlemsrabatten! 🎉</p>` : ""}
         <p style="margin-top:16px">Vi gjør maten klar. Vi ses snart! 🥡</p>
       </div>`;
     $("#cartFoot").innerHTML = `<button class="btn-send" id="closeConfirm" style="background:var(--ink)">Lukk</button>`;
@@ -326,7 +348,88 @@
     }
   }
 
+  /* ===================== login / medlemskap ========================== */
+  function renderLoginTab() {
+    const tab = $("#loginTab");
+    $("#loginTabLabel").textContent = user ? (user.name ? user.name.split(" ")[0] : "Medlem") : "Logg inn";
+    tab.classList.toggle("is-member", !!user);
+    const note = $("#loginNote");
+    if (note) note.hidden = !!user || localStorage.getItem(NOTE_KEY) === "1";
+  }
+
+  function openLogin() {
+    renderLoginContent();
+    $("#loginOverlay").classList.add("open");
+    $("#loginModal").classList.add("open");
+    $("#loginModal").setAttribute("aria-hidden", "false");
+  }
+  function closeLogin() {
+    $("#loginOverlay").classList.remove("open");
+    $("#loginModal").classList.remove("open");
+    $("#loginModal").setAttribute("aria-hidden", "true");
+  }
+
+  function renderLoginContent() {
+    const box = $("#loginContent");
+    if (user) {
+      box.innerHTML = `
+        <h2>Hei, ${esc((user.name || "medlem").split(" ")[0])}! 👋</h2>
+        <p>Du er medlem hos Golden House.</p>
+        ${memberDiscountAvailable()
+          ? `<p class="perk">Du har 15&nbsp;% på din neste bestilling. 🎉</p>`
+          : `<p class="muted">Du har brukt velkomstrabatten — takk for handelen!</p>`}
+        <button class="btn-ghost" id="logoutBtn">Logg ut</button>`;
+      $("#logoutBtn").addEventListener("click", () => { logout(); renderLoginContent(); });
+      return;
+    }
+    box.innerHTML = `
+      <h2>Bli medlem</h2>
+      <p class="perk">Få 15&nbsp;% på din første bestilling! 🎉</p>
+      <p class="muted">Helt valgfritt — du kan bestille uten å logge inn.</p>
+      <form id="loginForm" novalidate>
+        <div class="field" id="lf-name">
+          <label for="lg-name">Navn</label>
+          <input id="lg-name" type="text" autocomplete="name" placeholder="Ditt navn" />
+        </div>
+        <div class="field" id="lf-email">
+          <label for="lg-email">E-post</label>
+          <input id="lg-email" type="email" autocomplete="email" inputmode="email" placeholder="deg@epost.no" />
+        </div>
+        <button class="btn-send" type="submit">Bli medlem &amp; få 15&nbsp;%</button>
+      </form>
+      <p class="muted" style="margin-top:12px">Demo: lagres kun i din egen nettleser.</p>`;
+    $("#loginForm").addEventListener("submit", handleLoginSubmit);
+  }
+
+  function handleLoginSubmit(e) {
+    e.preventDefault();
+    const name = ($("#lg-name").value || "").trim();
+    const email = ($("#lg-email").value || "").trim();
+    const okName = name.length >= 2;
+    const okEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    $("#lf-name").classList.toggle("field--invalid", !okName);
+    $("#lf-email").classList.toggle("field--invalid", !okEmail);
+    if (!okName || !okEmail) { (okName ? $("#lg-email") : $("#lg-name")).focus(); return; }
+    user = { name, email, joined: Date.now(), discountUsed: false };
+    saveUser();
+    if (!draft.name) draft.name = name;
+    renderLoginTab();
+    renderLoginContent();
+    updateFab(false);
+    if ($("#drawer").classList.contains("open")) renderCart();
+  }
+
+  function logout() {
+    user = null;
+    try { localStorage.removeItem(USER_KEY); } catch {}
+    renderLoginTab();
+    updateFab(false);
+    if ($("#drawer").classList.contains("open")) renderCart();
+  }
+
   /* ===================== persistence ================================= */
+  function loadUser() { try { return JSON.parse(localStorage.getItem(USER_KEY)) || null; } catch { return null; } }
+  function saveUser() { try { localStorage.setItem(USER_KEY, JSON.stringify(user)); } catch {} }
   function loadCart() { try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch { return {}; } }
   function saveCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }
   function loadOrders() { try { return JSON.parse(localStorage.getItem(ORDERS_KEY)) || []; } catch { return []; } }
@@ -340,15 +443,24 @@
 
   /* ===================== wire up ===================================== */
   function init() {
+    if (user && !draft.name) draft.name = user.name || "";
     renderMenu();
     renderFooter();
     setupScrollSpy();
+    renderLoginTab();
     updateFab(false);
 
     $("#cartFab").addEventListener("click", openDrawer);
     $("#cartClose").addEventListener("click", closeDrawer);
     $("#overlay").addEventListener("click", closeDrawer);
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+    $("#loginTab").addEventListener("click", openLogin);
+    $("#loginClose").addEventListener("click", closeLogin);
+    $("#loginOverlay").addEventListener("click", closeLogin);
+    $("#loginNoteX").addEventListener("click", () => {
+      $("#loginNote").hidden = true;
+      try { localStorage.setItem(NOTE_KEY, "1"); } catch {}
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDrawer(); closeLogin(); } });
     $("#scrollDown").addEventListener("click", () =>
       document.getElementById("bestilling").scrollIntoView({ behavior: "smooth" }));
   }

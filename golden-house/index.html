@@ -16,89 +16,135 @@
   <svg class="svg-defs" aria-hidden="true">
     <defs>
       <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.8" xChannelSelector="R" yChannelSelector="G" />
       </filter>
     </defs>
   </svg>
 
   <!-- ============================== HERO ============================== -->
+  <!-- login / medlemskap -->
+  <button class="login-tab" id="loginTab" aria-label="Logg inn">
+    <span class="login-tab__ico">👤</span><span id="loginTabLabel">Logg inn</span>
+  </button>
+  <div class="login-note" id="loginNote" role="note">
+    <svg class="login-note__arrow" viewBox="0 0 42 44" aria-hidden="true">
+      <path d="M6 38 C 20 34 33 24 35 9" fill="none" stroke="#1c1c1c" stroke-width="2.6" stroke-linecap="round" filter="url(#rough)"/>
+      <path d="M27 10 L36 6 L35 16" fill="none" stroke="#1c1c1c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)"/>
+    </svg>
+    <span>Ikke nødvendig — men du får <b>15&nbsp;%</b> på første kjøp! 🎉</span>
+    <button class="login-note__x" id="loginNoteX" aria-label="Lukk notis">×</button>
+  </div>
+
   <header class="hero">
     <div class="hero__topbar">
       <span class="hero__open"><span class="dot"></span> Åpent nå</span>
-      <span class="tag">Stangeland</span>
     </div>
 
     <!-- The shop, drawn in marker. Lines animate themselves on load. -->
-    <svg class="sketch reveal-up d1" viewBox="0 0 660 400" role="img"
+    <svg class="sketch reveal-up d1" viewBox="0 0 700 430" role="img"
          aria-label="Håndtegnet skisse av Golden House takeout-sjappa">
+
+      <!-- soft shadow under the shop -->
+      <g class="fill-late">
+        <ellipse cx="360" cy="354" rx="248" ry="10" fill="#1c1c1c" opacity="0.06" />
+      </g>
+
+      <!-- line art — draws itself in -->
       <g filter="url(#rough)" fill="none" stroke="#1c1c1c" stroke-width="3"
          stroke-linecap="round" stroke-linejoin="round">
 
         <!-- ground -->
-        <path data-draw d="M40 348 L620 348" stroke-width="3.5" />
+        <path data-draw d="M64 352 L644 352" stroke-width="3.4" />
 
-        <!-- tree (left) -->
-        <path data-draw d="M60 348 L60 300" />
-        <path data-draw d="M62 300 C 18 296, 18 240, 60 236 C 104 232, 110 286, 78 300"
-              stroke-width="3" />
+        <!-- tree -->
+        <path data-draw d="M66 352 L70 302 M84 352 L80 302 M70 302 L80 302" stroke-width="2.6" />
+        <path data-draw d="M44 302 C 22 294 18 264 40 254 C 32 228 64 214 86 228 C 114 220 126 252 106 268 C 118 290 92 306 72 296 C 62 306 50 306 44 302 Z" stroke-width="2.8" />
 
-        <!-- yield road sign (left) -->
-        <path data-draw d="M30 348 L30 286" stroke="#d72631" />
-        <path data-draw d="M12 256 L48 256 L30 286 Z" stroke="#d72631" />
+        <!-- cloud -->
+        <path data-draw d="M128 94 c -20 0 -20 20 0 20 l 56 0 c 20 0 20 -20 0 -20 c 2 -16 -36 -18 -40 -2 c -6 -6 -14 -2 -16 2 Z"
+              stroke="#4a4a4a" stroke-width="2" />
 
-        <!-- roof (big overhang on the porch side) -->
-        <path data-draw d="M92 222 L335 92 L548 216" stroke-width="3.6" />
-        <path data-draw d="M112 230 L335 110 L532 226" stroke-width="2.4" />
-        <!-- porch support beam -->
-        <path data-draw d="M100 224 L168 312" stroke-width="2.6" />
+        <!-- birds -->
+        <path data-draw d="M232 118 q7 -8 13 0 q6 -8 13 0 M282 108 q6 -7 12 0 q5 -7 11 0"
+              stroke="#4a4a4a" stroke-width="1.8" />
 
-        <!-- wall -->
-        <path data-draw d="M178 220 L178 332 L502 332 L502 220" stroke-width="3.2" />
-        <!-- cladding lines -->
-        <path data-draw d="M180 300 L500 300" stroke-width="1.8" stroke="#4a4a4a" />
-        <path data-draw d="M180 316 L500 316" stroke-width="1.8" stroke="#4a4a4a" />
-
-        <!-- serving-hatch shutters (left part of wall) -->
-        <path data-draw d="M190 244 L408 244 L408 288 L190 288 Z" stroke-width="2.6" />
-        <path data-draw d="M244 244 L244 288 M298 244 L298 288 M352 244 L352 288" stroke-width="1.8" />
-        <!-- diamond-plate hatch -->
-        <path data-draw d="M196 286 L230 246 M214 288 L246 250 M256 286 L290 246 M304 288 L302 286 M312 286 L346 246 M358 286 L392 246 M402 288 L404 286"
-              stroke-width="1.4" stroke="#4a4a4a" />
-        <path data-draw d="M196 250 L228 288 M252 246 L292 288 M306 246 L348 288 M360 246 L402 286"
-              stroke-width="1.4" stroke="#4a4a4a" />
-
-        <!-- door (right part of wall) -->
-        <path data-draw d="M432 250 L432 330 L490 330 L490 250 Z" stroke-width="2.6" />
-        <path data-draw d="M480 292 a3 3 0 1 0 0.1 0" stroke-width="3" />
-
-        <!-- chimney + conical hat (right roof) -->
-        <path data-draw d="M452 168 L452 138 L472 138 L472 156" stroke-width="2.6" />
-        <path data-draw d="M438 138 C 452 116, 472 116, 486 138 Z" stroke-width="2.6" />
-        <!-- steam -->
-        <path data-draw d="M462 112 C 452 100, 472 92, 462 80 C 454 70, 470 62, 462 52"
-              stroke-width="2" stroke="#4a4a4a" />
-
-        <!-- sun (top right) -->
-        <path data-draw d="M598 64 a26 26 0 1 0 0.1 0" stroke="#d72631" stroke-width="2.6" />
-        <path data-draw d="M598 22 L598 8 M640 64 L656 64 M628 34 L640 22 M628 94 L640 106"
+        <!-- sun (proper circle, evenly spaced rays) -->
+        <circle data-draw cx="610" cy="84" r="24" stroke="#d72631" stroke-width="2.6" />
+        <path data-draw d="M610 56 L610 44 M610 112 L610 124 M638 84 L650 84 M582 84 L570 84 M630 64 L638 56 M590 104 L582 112 M630 104 L638 112 M590 64 L582 56"
               stroke="#d72631" stroke-width="2.4" />
 
-        <!-- a little cloud -->
-        <path data-draw d="M120 80 c -22 0 -22 22 0 22 l 60 0 c 22 0 22 -22 0 -22 c 0 -18 -44 -18 -44 0"
-              stroke-width="2.2" stroke="#4a4a4a" />
+        <!-- roof: gable with ridge, barge boards & boxed eaves -->
+        <path data-draw d="M136 226 L344 92 L356 92 L566 226" stroke-width="3.4" stroke-linejoin="miter" />
+        <path data-draw d="M158 223 L345 103 L355 103 L544 223" stroke="#4a4a4a" stroke-width="1.5" stroke-linejoin="miter" />
+        <!-- boxed eave overhangs -->
+        <path data-draw d="M136 226 L136 235 L176 235 M566 226 L566 235 L538 235" stroke-width="2.2" />
+        <!-- little louvered gable vent above the sign -->
+        <path data-draw d="M335 110 L365 110 L365 128 L335 128 Z" stroke="#4a4a4a" stroke-width="1.5" />
+        <path data-draw d="M335 116 L365 116 M335 122 L365 122" stroke="#4a4a4a" stroke-width="1.2" />
+
+        <!-- walls -->
+        <path data-draw d="M176 235 L176 352 M538 235 L538 352 M176 235 L538 235" stroke-width="3.2" />
+        <!-- wood clapboard siding -->
+        <path data-draw d="M180 250 L534 250 M180 268 L534 268 M180 286 L534 286 M180 322 L534 322 M180 340 L534 340"
+              stroke="#cfc9ba" stroke-width="1.3" />
+
+        <!-- serving hatches (metal shutters) -->
+        <path data-draw d="M214 252 L440 252 L440 300 L214 300 Z" fill="#f7f4ec" stroke-width="2.4" />
+        <path data-draw d="M214 252 L440 252" stroke-width="3" />
+        <path data-draw d="M270 252 L270 300 M327 252 L327 300 M383 252 L383 300" stroke="#8f8a7e" stroke-width="1.5" />
+        <path data-draw d="M214 265 L440 265 M214 277 L440 277 M214 289 L440 289" stroke="#b8b2a4" stroke-width="1.2" />
+        <!-- counter ledge -->
+        <path data-draw d="M208 302 L446 302" stroke-width="3" />
+
+        <!-- door with a little window -->
+        <path data-draw d="M470 266 L470 352 L530 352 L530 266 Z" fill="#f7f4ec" stroke-width="2.4" />
+        <path data-draw d="M476 274 L524 274 L524 296 L476 296 Z" stroke="#8f8a7e" stroke-width="1.5" />
+        <path data-draw d="M476 306 L524 306 L524 346 L476 346 Z" stroke="#b8b2a4" stroke-width="1.3" />
+        <path data-draw d="M520 314 L520 328" stroke-width="2.6" />
+
+        <!-- round roof vent rising from the roof + exhaust box -->
+        <path data-draw d="M440 146 L440 126" stroke-width="2.2" />
+        <ellipse data-draw cx="440" cy="121" rx="14" ry="6" fill="#f7f4ec" stroke-width="2" />
+        <path data-draw d="M440 115 L440 111" stroke-width="2" />
+        <path data-draw d="M458 158 L458 144 L474 144 L474 158 Z" fill="#4a4a4a" stroke-width="1.4" />
+        <path data-draw d="M438 109 C 430 101 446 95 438 87" stroke="#4a4a4a" stroke-width="1.6" />
       </g>
 
-      <!-- hanging sign (kept crisp — not roughened — so text reads) -->
-      <g class="fill-late" transform="rotate(-3 220 176)">
-        <line x1="172" y1="150" x2="180" y2="128" stroke="#1c1c1c" stroke-width="2" />
-        <line x1="268" y1="150" x2="262" y2="128" stroke="#1c1c1c" stroke-width="2" />
-        <rect x="150" y="148" width="140" height="56" rx="7"
-              fill="#fcfbf7" stroke="#1c1c1c" stroke-width="3" />
-        <text x="220" y="176" text-anchor="middle" font-family="'Permanent Marker',cursive"
-              font-size="22" fill="#d72631">Golden House</text>
-        <text x="220" y="194" text-anchor="middle" font-family="'Caveat',cursive"
-              font-size="13" fill="#1c1c1c">Take Away</text>
+      <!-- coloured details: fade in after the line art (no text) -->
+      <g class="fill-late" filter="url(#rough)" stroke="#1c1c1c" stroke-linecap="round" stroke-linejoin="round">
+        <!-- left lantern -->
+        <path d="M158 213 L158 233" fill="none" stroke-width="2" />
+        <path d="M155 230 L161 230 L164 234 L152 234 Z" fill="#d72631" stroke-width="1.6" />
+        <ellipse cx="158" cy="250" rx="12" ry="15" fill="#d72631" stroke-width="2.2" />
+        <path d="M158 236 L158 264 M151 239 Q148 250 151 261 M165 239 Q168 250 165 261" fill="none" stroke="#b01622" stroke-width="1.3" />
+        <path d="M152 264 L164 264 L161 268 L155 268 Z" fill="#d72631" stroke-width="1.6" />
+        <path d="M158 268 L158 275" fill="none" stroke="#d72631" stroke-width="2" />
+        <path d="M158 275 l-2 3 l2 3 l2 -3 Z" fill="#d72631" stroke-width="1.4" />
+
+        <!-- right lantern -->
+        <path d="M552 218 L552 233" fill="none" stroke-width="2" />
+        <path d="M549 230 L555 230 L558 234 L546 234 Z" fill="#d72631" stroke-width="1.6" />
+        <ellipse cx="552" cy="250" rx="12" ry="15" fill="#d72631" stroke-width="2.2" />
+        <path d="M552 236 L552 264 M545 239 Q542 250 545 261 M559 239 Q562 250 559 261" fill="none" stroke="#b01622" stroke-width="1.3" />
+        <path d="M546 264 L558 264 L555 268 L549 268 Z" fill="#d72631" stroke-width="1.6" />
+        <path d="M552 268 L552 275" fill="none" stroke="#d72631" stroke-width="2" />
+        <path d="M552 275 l-2 3 l2 3 l2 -3 Z" fill="#d72631" stroke-width="1.4" />
+      </g>
+
+      <!-- gold sign on the gable (kept crisp so the text reads) -->
+      <g class="fill-late" transform="rotate(-2 350 178)">
+        <rect x="275" y="152" width="150" height="52" rx="7"
+              fill="#ecc23a" stroke="#1c1c1c" stroke-width="3" />
+        <circle cx="286" cy="162" r="2.2" fill="#1c1c1c" />
+        <circle cx="414" cy="162" r="2.2" fill="#1c1c1c" />
+        <circle cx="286" cy="194" r="2.2" fill="#1c1c1c" />
+        <circle cx="414" cy="194" r="2.2" fill="#1c1c1c" />
+        <text x="350" y="176" text-anchor="middle" textLength="130" lengthAdjust="spacingAndGlyphs"
+              font-family="'Permanent Marker',cursive" font-size="18" fill="#d72631">Golden House</text>
+        <text x="350" y="195" text-anchor="middle" font-size="12">
+          <tspan fill="#d72631" font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif">金屋</tspan><tspan fill="#1c1c1c" font-family="'Caveat',cursive"> · Take Away</tspan>
+        </text>
       </g>
     </svg>
 
@@ -168,6 +214,13 @@
     <div class="drawer__body" id="cartBody"></div>
     <div class="drawer__foot" id="cartFoot"></div>
   </aside>
+
+  <!-- login / medlemskap-modal -->
+  <div class="overlay" id="loginOverlay"></div>
+  <div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="drawer__close modal__close" id="loginClose" aria-label="Lukk">✕</button>
+    <div id="loginContent"></div>
+  </div>
 
   <script src="menu.js"></script>
   <script src="app.js"></script>
