@@ -1,27 +1,32 @@
-# Blod — Blodprøvesvar
+# Blod
 
-Et progressivt scroll-dashboard for blodprøvesvar bygget med **React + Tailwind + Framer Motion**.
-
-## Kom i gang
+Lys, iOS-inspirert helseapp for blodprøvesvar. **React + Tailwind + Framer Motion.**
 
 ```bash
 npm install
 npm run dev
 ```
 
-Deretter åpne http://localhost:5173
+## Flyt
 
-## Designspråk
+**Login** (prøvekode / BankID) → **Hjem** med helsescore-ring og valg:
 
-- **Typografi:** *Instrument Serif* (display, italic for aksent), *Geist* (UI), *JetBrains Mono* (tall/etiketter)
-- **Farger:** Krem-papir `#FAF7F2`, blekk `#1A1A2E`, krimson `#C41E3A`
-- Skandinavisk redaksjonell minimalisme — *Apoteket møter Kinfolk*
-- Subtilt papirkorn, animerte væskefylte blod-dråper, scroll-triggede reveal-animasjoner
+- **Testresultat** — 32 markører i 7 grupper. Testvelger (tre prøver), kategorier
+  (Trening · Energi · Hjerte · Immunforsvar · Langtidshelse), søk, 270°-buemålere,
+  delta mot forrige prøve, sparklines og legens kommentar
+- **Utvikling** — selvtegnende trendlinjer siden 2023
+- **Blodgivning** — liter gitt, liv hjulpet, årets mål, historikk
+- **Profil** — deling, PDF, logg ut
 
-## Spesialeffekter
+Deep-link for utvikling/demo: `?demo=1&tab=resultater` hopper rett inn i en fane.
+Screenshots: `node scripts/shot.mjs <url> <fil> [bredde] [høyde]` (krever `npx playwright install chromium`).
 
-- Pulserende rød ring rundt CRP når forhøyet
-- Skinneffekt på verdier utenfor referanseområde
-- Helseindeks-dråpen "puster"; parallax når man scroller
-- Hemoglobin under referanse → dråpen blir mer gjennomsiktig
-- Animerte linjediagrammer som tegner seg når de kommer i syne
+## Design
+
+- Hvit notatbok-bakgrunn med prikk-rutenett
+- Liquid glass-paneler (iOS-stil) med myke skygger
+- Instrument Serif + Geist + JetBrains Mono
+- Flytende glass-tab-bar nederst
+- Aksent: blodrød `#C41E3A`, grønn `#15A86B`
+
+Simulerte data — ikke medisinsk rådgivning.

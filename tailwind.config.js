@@ -4,17 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        night: '#08080C',
-        nightSoft: '#101019',
-        nightCard: '#13131D',
-        bone: '#F4F2EC',
-        ash: '#7A7A8A',
-        ashDim: '#3A3A48',
-        neon: '#3DFF8F',
-        neonDim: '#1F6B47',
-        blood: '#FF3355',
-        bloodDeep: '#C41E3A',
-        amber: '#FFB23D'
+        paper: '#F7F5F0',
+        ink: '#1A1A2E',
+        blood: '#C41E3A',
+        rose: '#E8556D',
+        green: '#15A86B',
+        amber: '#D98A1F',
+        ash: '#797986'
       },
       fontFamily: {
         display: ['"Instrument Serif"', 'Georgia', 'serif'],

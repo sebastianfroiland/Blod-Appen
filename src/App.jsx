@@ -1,5 +1,5 @@
-import BlodApp from './components/BlodApp.jsx'
+import Blod from './components/Blod.jsx'
 
 export default function App() {
-  return <BlodApp />
+  return <Blod />
 }
